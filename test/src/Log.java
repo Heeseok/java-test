@@ -11,7 +11,7 @@ import java.util.Calendar;
 
 public class Log {
 
-	public static void write(String msg) {
+	public static void write(String msg) { 
 		try {
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
