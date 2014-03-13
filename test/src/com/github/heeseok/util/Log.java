@@ -1,3 +1,4 @@
+package com.github.heeseok.util;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
