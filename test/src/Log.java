@@ -12,7 +12,7 @@ import java.util.Calendar;
 public class Log {
 
 	public static void write(String msg) { 
-		try {
+		try {    
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 			String timeStr = "[" + sdf.format(cal.getTime()) + "]";
@@ -20,7 +20,7 @@ public class Log {
 					"D:/temp/koneki_simulator.log", true));
 			out.write(timeStr + " " + msg);
 			out.newLine();
-			out.close();
+			out.close();  
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
