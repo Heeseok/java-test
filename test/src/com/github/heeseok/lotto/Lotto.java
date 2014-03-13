@@ -6,6 +6,13 @@ import java.util.Random;
 
 public class Lotto {
 	public static void main(String[] args) {
+		calcDiceProbability();
+	}
+
+	/**
+	 * 주사위 확률 계산
+	 */
+	private static void calcDiceProbability() {
 		HashMap<Integer, Integer> map = new HashMap<Integer,Integer>();
 		Random random = new Random();
 		int array[] = {10, 50, 100, 150, 200, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
