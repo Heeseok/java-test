@@ -6,22 +6,22 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * 
- * [2013-03-26] hskang Log를 D:/temp/koneki_simulator.log 파일에 남긴다.
+ *
+ * [2013-03-26] hskang Log를 ./data/result.log 파일에 남긴다.
  */
 
 public class Log {
 
-	public static void write(String msg) { 
-		try {    
+	public static void write(String msg) {
+		try {
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 			String timeStr = "[" + sdf.format(cal.getTime()) + "]";
 			BufferedWriter out = new BufferedWriter(new FileWriter(
-					"D:/temp/koneki_simulator.log", true));
+					"./data/result.log", true));
 			out.write(timeStr + " " + msg);
 			out.newLine();
-			out.close();  
+			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
