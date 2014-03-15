@@ -32,22 +32,21 @@ public class Lotto {
 	        String line = br.readLine();
 
 	        while (line != null) {
+
+	        	//System.out.println(line);
+	        	int[] array = new int[7];
+	        	String[] split = line.split(",");
+	        	for(int i=0; i<split.length; i++) {
+	        		array[i] = Integer.parseInt(split[i]);
+	        	}
+	        	lottoList.add(0, array);
+
 	            line = br.readLine();
-	            if( line != null ) {
-	            	//System.out.println(line);
-	            	int[] array = new int[7];
-	            	String[] split = line.split(",");
-	            	for(int i=0; i<split.length; i++) {
-	            		array[i] = Integer.parseInt(split[i]);
-	            	}
-	            	lottoList.add(0, array);
-	            }
 	        }
 	    } finally {
 	        br.close();
 	    }
 	    return lottoList;
-
 	}
 
 	private void lottery() {
@@ -60,8 +59,8 @@ public class Lotto {
 
 		int[] lottoNumberArray = new int[45];
 
-		for( int i=0; i<lottoList.size(); i++) {
-			int[] array = lottoList.get(i);
+		for( int i=1; i<=lottoList.size(); i++) {
+			int[] array = lottoList.get(i-1);
 			assert(i+1 == array[0]);
 			for(int j=1; j < array.length; j++ ) {
 				int number = array[j];
@@ -70,7 +69,7 @@ public class Lotto {
 			// 번호 별 확률 계산해서 가장 확률이 높은 6개를 뽑아서 맞은 개수를 리턴한다.
 			System.out.println("----------------------------------------------------------------");
 			int result = calcLotto(lottoList, lottoNumberArray, i);
-			String msg = i + " round - " + result;
+			String msg = i+1 + " round - " + result;
 			System.out.println(msg);
 			Log.write(msg);
 		}
@@ -79,13 +78,15 @@ public class Lotto {
 
 	/**
 	 * @param lottoList 당첨 번호를 가지고 있는 int[]의 List. int[]의 맨 첫 숫자는 회차 번호이다.
-	 * @param lottoNumberArray 0~45 index
-	 * @param round 회차 번호.
-	 * @return
+	 * @param lottoNumberArray 0~45 index. round+1 회차까지의 당첨 횟수가 저장되어 있다.
+	 * @param round 0부터 시작. 회차 번호-1.
+	 * @return round+1 회차의 예상 당첨 숫자를 반환한다.
 	 */
 	private int calcLotto(ArrayList<int[]> lottoList, int[] lottoNumberArray, int round)
 	{
 		HashMap<Integer,Double> hashMap = new HashMap<Integer,Double>();
+
+		// 해당 회차의 확률을 계산한다.
 		for(int i=0; i<lottoNumberArray.length; i++) {
 			double probability = (4500.0/45 - lottoNumberArray[i])/(4500.0-round);
 			hashMap.put(i,probability);
@@ -110,7 +111,14 @@ public class Lotto {
 		int result = 0;
 		int count = 0;
 
-		int[] victoryArray = lottoList.get(round);
+		boolean isPast = true;
+
+		int[] victoryArray = null;
+		try {
+			victoryArray = lottoList.get(round);
+		} catch (IndexOutOfBoundsException e) {
+			isPast = false;
+		}
 
 		// List the key value
 		for(Iterator<Integer> i=keys.iterator(); i.hasNext();){
@@ -121,12 +129,16 @@ public class Lotto {
 			System.out.println(msg);
 			Log.write(msg);
 
-			// 다음 회차 당첨 번호에 포함되어 있는지 확인해 본다.
-			for (int j = 1; j < victoryArray.length; j++) {
-				if( k+1 == victoryArray[j] ) { // k는 0부터 시작한다.
-					result++;
-					break;
+			if( isPast ) {
+				// 다음 회차 당첨 번호에 포함되어 있는지 확인해 본다.
+				for (int j = 1; j < victoryArray.length; j++) {
+					if( k+1 == victoryArray[j] ) { // k는 0부터 시작한다.
+						result++;
+						break;
+					}
 				}
+			} else {
+				result = -1;
 			}
 		}
 
