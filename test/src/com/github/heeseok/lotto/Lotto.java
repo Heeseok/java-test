@@ -96,10 +96,10 @@ public class Lotto {
 
 		//Sort keys by values.
 		final Map<Integer,Double> mapForComp = hashMap;
-		Collections.sort(keys, new Comparator(){
-			public int compare(Object left, Object right){
-				Integer leftKey = (Integer)left;
-				Integer rightKey = (Integer)right;
+		Collections.sort(keys, new Comparator<Integer>(){
+			public int compare(Integer left, Integer right){
+				Integer leftKey = left;
+				Integer rightKey = right;
 
 				Double leftValue = mapForComp.get(leftKey);
 				Double rightValue = mapForComp.get(rightKey);
